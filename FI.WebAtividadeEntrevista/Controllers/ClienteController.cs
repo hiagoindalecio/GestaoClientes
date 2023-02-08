@@ -23,7 +23,7 @@ namespace WebAtividadeEntrevista.Controllers
         [HttpPost]
         public JsonResult Incluir(ClienteModel model)
         {
-            BoCliente bo = new();
+            BoCliente bo = new BoCliente();
             
             if (!ModelState.IsValid)
             {
@@ -59,7 +59,7 @@ namespace WebAtividadeEntrevista.Controllers
         [HttpPost]
         public JsonResult Alterar(ClienteModel model)
         {
-            BoCliente bo = new();
+            BoCliente bo = new BoCliente();
        
             if (!ModelState.IsValid)
             {
@@ -94,7 +94,7 @@ namespace WebAtividadeEntrevista.Controllers
         [HttpGet]
         public ActionResult Alterar(long id)
         {
-            BoCliente bo = new();
+            BoCliente bo = new BoCliente();
             Cliente cliente = bo.Consultar(id);
             ClienteModel model = null;
 
