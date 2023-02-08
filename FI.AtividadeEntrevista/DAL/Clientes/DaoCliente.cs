@@ -20,7 +20,8 @@ namespace FI.AtividadeEntrevista.DAL
         internal long Incluir(DML.Cliente cliente)
         {
             List<System.Data.SqlClient.SqlParameter> parametros = new List<System.Data.SqlClient.SqlParameter>();
-            
+
+            parametros.Add(new System.Data.SqlClient.SqlParameter("CFP", cliente.CPF));
             parametros.Add(new System.Data.SqlClient.SqlParameter("Nome", cliente.Nome));
             parametros.Add(new System.Data.SqlClient.SqlParameter("Sobrenome", cliente.Sobrenome));
             parametros.Add(new System.Data.SqlClient.SqlParameter("Nacionalidade", cliente.Nacionalidade));
@@ -110,6 +111,7 @@ namespace FI.AtividadeEntrevista.DAL
         {
             List<System.Data.SqlClient.SqlParameter> parametros = new List<System.Data.SqlClient.SqlParameter>();
 
+            parametros.Add(new System.Data.SqlClient.SqlParameter("CFP", cliente.CPF));
             parametros.Add(new System.Data.SqlClient.SqlParameter("Nome", cliente.Nome));
             parametros.Add(new System.Data.SqlClient.SqlParameter("Sobrenome", cliente.Sobrenome));
             parametros.Add(new System.Data.SqlClient.SqlParameter("Nacionalidade", cliente.Nacionalidade));
@@ -156,6 +158,7 @@ namespace FI.AtividadeEntrevista.DAL
                     cli.Nome = row.Field<string>("Nome");
                     cli.Sobrenome = row.Field<string>("Sobrenome");
                     cli.Telefone = row.Field<string>("Telefone");
+                    cli.CPF = row.Field<string>("CPF");
                     lista.Add(cli);
                 }
             }
