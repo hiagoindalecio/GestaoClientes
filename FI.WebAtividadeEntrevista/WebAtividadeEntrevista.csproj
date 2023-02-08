@@ -289,7 +289,6 @@
     <Content Include="Scripts\jtable\localization\jquery.jtable.cz.js" />
     <Content Include="Scripts\jtable\localization\jquery.jtable.de.js" />
     <Content Include="Scripts\jtable\localization\jquery.jtable.es.js" />
-    <Content Include="Scripts\jtable\localization\jquery.jtable.fa.js" />
     <Content Include="Scripts\jtable\localization\jquery.jtable.fr.js" />
     <Content Include="Scripts\jtable\localization\jquery.jtable.hr.js" />
     <Content Include="Scripts\jtable\localization\jquery.jtable.hu.js" />
