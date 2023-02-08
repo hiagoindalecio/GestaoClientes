@@ -57,6 +57,7 @@ namespace FI.AtividadeEntrevista.DAL
 
         internal bool VerificarExistencia(string cpf)
         {
+            var existe = false;
             List<SqlParameter> parametros = new List<SqlParameter>
             {
                 new SqlParameter("CPF", cpf)
@@ -64,7 +65,10 @@ namespace FI.AtividadeEntrevista.DAL
 
             DataSet ds = Consultar("FI_SP_VerificaCliente", parametros);
 
-            return ds.Tables[0].Rows.Count > 0;
+            if (ds != null && ds.Tables != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                existe = ds.Tables[0].Rows[0].Field<bool>("Existente");
+
+            return existe;
         }
 
         internal List<Cliente> Pesquisa(int iniciarEm, int quantidade, string campoOrdenacao, bool crescente, out int qtd)

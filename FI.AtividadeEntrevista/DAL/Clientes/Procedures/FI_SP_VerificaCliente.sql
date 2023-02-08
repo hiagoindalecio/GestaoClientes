@@ -1,0 +1,11 @@
+﻿CREATE PROC FI_SP_VerificaCliente
+	@CPF VARCHAR (14)
+AS
+BEGIN
+	IF(ISNULL(@CPF,0) = 0)
+		SELECT 0 AS Existente
+	ELSE
+		SELECT IIF(COUNT(ID) > 0, 1, 0) AS Existente
+		FROM CLIENTES
+		WITH(NOLOCK)
+END
