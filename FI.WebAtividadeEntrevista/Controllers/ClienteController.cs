@@ -3,7 +3,6 @@ using WebAtividadeEntrevista.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using FI.AtividadeEntrevista.DML;
 
@@ -16,7 +15,6 @@ namespace WebAtividadeEntrevista.Controllers
             return View();
         }
 
-
         public ActionResult Incluir()
         {
             return View();
@@ -25,9 +23,9 @@ namespace WebAtividadeEntrevista.Controllers
         [HttpPost]
         public JsonResult Incluir(ClienteModel model)
         {
-            BoCliente bo = new BoCliente();
+            BoCliente bo = new();
             
-            if (!this.ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 List<string> erros = (from item in ModelState.Values
                                       from error in item.Errors
@@ -49,7 +47,8 @@ namespace WebAtividadeEntrevista.Controllers
                     Nacionalidade = model.Nacionalidade,
                     Nome = model.Nome,
                     Sobrenome = model.Sobrenome,
-                    Telefone = model.Telefone
+                    Telefone = model.Telefone,
+                    CPF = model.CPF
                 });
 
            
@@ -60,9 +59,9 @@ namespace WebAtividadeEntrevista.Controllers
         [HttpPost]
         public JsonResult Alterar(ClienteModel model)
         {
-            BoCliente bo = new BoCliente();
+            BoCliente bo = new();
        
-            if (!this.ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 List<string> erros = (from item in ModelState.Values
                                       from error in item.Errors
@@ -84,7 +83,8 @@ namespace WebAtividadeEntrevista.Controllers
                     Nacionalidade = model.Nacionalidade,
                     Nome = model.Nome,
                     Sobrenome = model.Sobrenome,
-                    Telefone = model.Telefone
+                    Telefone = model.Telefone,
+                    CPF = model.CPF
                 });
                                
                 return Json("Cadastro alterado com sucesso");
@@ -94,9 +94,9 @@ namespace WebAtividadeEntrevista.Controllers
         [HttpGet]
         public ActionResult Alterar(long id)
         {
-            BoCliente bo = new BoCliente();
+            BoCliente bo = new();
             Cliente cliente = bo.Consultar(id);
-            Models.ClienteModel model = null;
+            ClienteModel model = null;
 
             if (cliente != null)
             {
@@ -111,7 +111,8 @@ namespace WebAtividadeEntrevista.Controllers
                     Nacionalidade = cliente.Nacionalidade,
                     Nome = cliente.Nome,
                     Sobrenome = cliente.Sobrenome,
-                    Telefone = cliente.Telefone
+                    Telefone = cliente.Telefone,
+                    CPF = model.CPF
                 };
 
             
@@ -125,7 +126,6 @@ namespace WebAtividadeEntrevista.Controllers
         {
             try
             {
-                int qtd = 0;
                 string campo = string.Empty;
                 string crescente = string.Empty;
                 string[] array = jtSorting.Split(' ');
@@ -136,14 +136,14 @@ namespace WebAtividadeEntrevista.Controllers
                 if (array.Length > 1)
                     crescente = array[1];
 
-                List<Cliente> clientes = new BoCliente().Pesquisa(jtStartIndex, jtPageSize, campo, crescente.Equals("ASC", StringComparison.InvariantCultureIgnoreCase), out qtd);
+                List<Cliente> clientes = new BoCliente().Pesquisa(jtStartIndex, jtPageSize, campo, crescente.Equals("ASC", StringComparison.InvariantCultureIgnoreCase), out int qtd);
 
                 //Return result to jTable
                 return Json(new { Result = "OK", Records = clientes, TotalRecordCount = qtd });
             }
             catch (Exception ex)
             {
-                return Json(new { Result = "ERROR", Message = ex.Message });
+                return Json(new { Result = "ERROR", ex.Message });
             }
         }
     }
