@@ -1,4 +1,12 @@
-﻿function validaCpf() {
+﻿
+$(document).ready(function () {
+    // Implementando máscaras dinâmicas
+    $('#formCadastro #CPF').inputmask("mask", { "mask": "999.999.999-99" }, { reverse: true });
+    $('#formCadastro #CEP').inputmask("mask", { "mask": "99999-999" });
+    $('#formCadastro #Telefone').inputmask("mask", { "mask": "(99) 99999-9999" });
+});
+
+function validaCpf() {
     let total = 0;
     let resto;
 
