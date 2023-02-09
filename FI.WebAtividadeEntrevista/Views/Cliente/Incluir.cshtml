@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "Cadastrar Cliente";
 }
 @section scripts{
@@ -8,6 +7,7 @@
         var urlValidacaoCpf = '@Url.Action("ValidarExistenciaCpf", "Cliente", new { area = "" })';
     </script>
     @Scripts.Render("~/bundles/clientes")
+    @Scripts.Render("~/bundles/beneficiarios")
 }
 <h2>@Html.Raw(ViewBag.Title)</h2>
 @Html.Partial("Forms")
