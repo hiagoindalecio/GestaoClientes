@@ -10,6 +10,7 @@ namespace WebAtividadeEntrevista.Controllers
 {
     public class ClienteController : Controller
     {
+        #region Views
         public ActionResult Index()
         {
             return View();
@@ -20,11 +21,39 @@ namespace WebAtividadeEntrevista.Controllers
             return View();
         }
 
+        [HttpGet]
+        public ActionResult Alterar(long id)
+        {
+            BoCliente bo = new BoCliente();
+            Cliente cliente = bo.Consultar(id);
+            ClienteModel model = null;
+
+            if (cliente != null)
+                model = new ClienteModel()
+                {
+                    Id = cliente.Id,
+                    CEP = cliente.CEP,
+                    Cidade = cliente.Cidade,
+                    Email = cliente.Email,
+                    Estado = cliente.Estado,
+                    Logradouro = cliente.Logradouro,
+                    Nacionalidade = cliente.Nacionalidade,
+                    Nome = cliente.Nome,
+                    Sobrenome = cliente.Sobrenome,
+                    Telefone = cliente.Telefone,
+                    CPF = cliente.CPF
+                };
+
+            return View(model);
+        }
+        #endregion
+
+        #region API Routes
         [HttpPost]
         public JsonResult Incluir(ClienteModel model)
         {
             BoCliente bo = new BoCliente();
-            
+
             if (!ModelState.IsValid)
             {
                 List<string> erros = (from item in ModelState.Values
@@ -36,9 +65,9 @@ namespace WebAtividadeEntrevista.Controllers
             }
             else
             {
-                
+
                 model.Id = bo.Incluir(new Cliente()
-                {                    
+                {
                     CEP = model.CEP,
                     Cidade = model.Cidade,
                     Email = model.Email,
@@ -51,7 +80,7 @@ namespace WebAtividadeEntrevista.Controllers
                     CPF = model.CPF
                 });
 
-           
+
                 return Json("Cadastro efetuado com sucesso");
             }
         }
@@ -60,7 +89,7 @@ namespace WebAtividadeEntrevista.Controllers
         public JsonResult Alterar(ClienteModel model)
         {
             BoCliente bo = new BoCliente();
-       
+
             if (!ModelState.IsValid)
             {
                 List<string> erros = (from item in ModelState.Values
@@ -86,43 +115,13 @@ namespace WebAtividadeEntrevista.Controllers
                     Telefone = model.Telefone,
                     CPF = model.CPF
                 });
-                               
+
                 return Json("Cadastro alterado com sucesso");
             }
         }
 
-        [HttpGet]
-        public ActionResult Alterar(long id)
-        {
-            BoCliente bo = new BoCliente();
-            Cliente cliente = bo.Consultar(id);
-            ClienteModel model = null;
-
-            if (cliente != null)
-            {
-                model = new ClienteModel()
-                {
-                    Id = cliente.Id,
-                    CEP = cliente.CEP,
-                    Cidade = cliente.Cidade,
-                    Email = cliente.Email,
-                    Estado = cliente.Estado,
-                    Logradouro = cliente.Logradouro,
-                    Nacionalidade = cliente.Nacionalidade,
-                    Nome = cliente.Nome,
-                    Sobrenome = cliente.Sobrenome,
-                    Telefone = cliente.Telefone,
-                    CPF = model.CPF
-                };
-
-            
-            }
-
-            return View(model);
-        }
-
         [HttpPost]
-        public JsonResult ClienteList(int jtStartIndex = 0, int jtPageSize = 0, string jtSorting = null)
+        public JsonResult ListarClientes(int jtStartIndex = 0, int jtPageSize = 0, string jtSorting = null)
         {
             try
             {
@@ -146,5 +145,21 @@ namespace WebAtividadeEntrevista.Controllers
                 return Json(new { Result = "ERROR", ex.Message });
             }
         }
+
+        [HttpGet]
+        public JsonResult ValidarExistenciaCpf(string cpf)
+        {
+            try
+            {
+                var existe = new BoCliente().VerificarExistencia(cpf);
+
+                return Json(new { Result = "OK", Valido = !existe }, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { Result = "ERROR", ex.Message }, JsonRequestBehavior.AllowGet);
+            }
+        }
+        #endregion
     }
 }
