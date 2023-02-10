@@ -1,6 +1,5 @@
 ﻿$(document).ready(function () {
     function enviarRequisicao() {
-        console.log(formBeneficiarios.listaBeneficiarios);
         $.ajax({
             url: urlPost,
             method: "POST",
