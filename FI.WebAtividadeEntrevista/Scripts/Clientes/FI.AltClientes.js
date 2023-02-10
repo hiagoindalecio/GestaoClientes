@@ -1,5 +1,6 @@
 ﻿$(document).ready(function () {
     function enviarRequisicao() {
+        console.log(formBeneficiarios.listaBeneficiarios);
         $.ajax({
             url: urlPost,
             method: "POST",
@@ -13,7 +14,8 @@
                 "Estado": $("#Estado").val(),
                 "Cidade": $("#Cidade").val(),
                 "Logradouro": $("#Logradouro").val(),
-                "Telefone": $("#Telefone").val()
+                "Telefone": $("#Telefone").val(),
+                "Beneficiarios": formBeneficiarios.listaBeneficiarios
             },
             error:
                 function (r) {
