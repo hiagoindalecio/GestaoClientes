@@ -17,6 +17,14 @@ namespace FI.AtividadeEntrevista.DAL
         /// <param name="cliente">Objeto de cliente</param>
         internal long Incluir(Cliente cliente)
         {
+            var dtBeneficiarios = new DataTable();
+            dtBeneficiarios.Columns.Add("ID", typeof(long));
+            dtBeneficiarios.Columns.Add("CPF", typeof(string));
+            dtBeneficiarios.Columns.Add("NOME", typeof(string));
+
+            foreach (var beneficiario in cliente.Beneficiarios)
+                dtBeneficiarios.Rows.Add(beneficiario.Id, beneficiario.CPF, beneficiario.Nome);
+
             List<SqlParameter> parametros = new List<SqlParameter>
             {
                 new SqlParameter("Nome", cliente.Nome),
@@ -28,10 +36,11 @@ namespace FI.AtividadeEntrevista.DAL
                 new SqlParameter("Cidade", cliente.Cidade),
                 new SqlParameter("Logradouro", cliente.Logradouro),
                 new SqlParameter("Email", cliente.Email),
-                new SqlParameter("Telefone", cliente.Telefone)
+                new SqlParameter("Telefone", cliente.Telefone),
+                new SqlParameter("Beneficiarios", dtBeneficiarios)
             };
 
-            DataSet ds = Consultar("FI_SP_IncClienteV2", parametros);
+            DataSet ds = Consultar("FI_SP_IncCliente", parametros);
             long ret = 0;
             if (ds.Tables[0].Rows.Count > 0)
                 long.TryParse(ds.Tables[0].Rows[0][0].ToString(), out ret);

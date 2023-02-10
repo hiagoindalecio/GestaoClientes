@@ -74,6 +74,13 @@ namespace WebAtividadeEntrevista.Controllers
             }
             else
             {
+                var beneficiarios = new List<Beneficiario>();
+                model.Beneficiarios.ForEach(b => beneficiarios.Add(new Beneficiario
+                {
+                    Id = b.Id,
+                    CPF = b.CPF,
+                    Nome = b.Nome
+                }));
 
                 model.Id = bo.Incluir(new Cliente()
                 {
@@ -86,7 +93,8 @@ namespace WebAtividadeEntrevista.Controllers
                     Nome = model.Nome,
                     Sobrenome = model.Sobrenome,
                     Telefone = model.Telefone,
-                    CPF = model.CPF
+                    CPF = model.CPF,
+                    Beneficiarios = beneficiarios
                 });
 
 

@@ -1,4 +1,6 @@
-﻿namespace FI.AtividadeEntrevista.DML
+﻿using System.Collections.Generic;
+
+namespace FI.AtividadeEntrevista.DML
 {
     /// <summary>
     /// Classe de cliente que representa o registo na tabela Cliente do Banco de Dados
@@ -58,6 +60,8 @@
         /// <summary>
         /// Telefone
         /// </summary>
-        public string Telefone { get; set; }        
+        public string Telefone { get; set; }
+
+        public List<Beneficiario> Beneficiarios { get; set; }
     }    
 }
