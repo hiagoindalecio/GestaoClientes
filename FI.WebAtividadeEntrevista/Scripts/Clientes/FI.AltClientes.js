@@ -1,18 +1,4 @@
-﻿
-$(document).ready(function () {
-    if (obj) {
-        $('#formCadastro #Nome').val(obj.Nome);
-        $('#formCadastro #CPF').val(obj.CPF);
-        $('#formCadastro #CEP').val(obj.CEP);
-        $('#formCadastro #Email').val(obj.Email);
-        $('#formCadastro #Sobrenome').val(obj.Sobrenome);
-        $('#formCadastro #Nacionalidade').val(obj.Nacionalidade);
-        $('#formCadastro #Estado').val(obj.Estado);
-        $('#formCadastro #Cidade').val(obj.Cidade);
-        $('#formCadastro #Logradouro').val(obj.Logradouro);
-        $('#formCadastro #Telefone').val(obj.Telefone);
-    }
-
+﻿$(document).ready(function () {
     function enviarRequisicao() {
         $.ajax({
             url: urlPost,
@@ -50,7 +36,7 @@ $(document).ready(function () {
         const cpf = $('#formCadastro #CPF').val();
         if (!validaCpf(cpf))
             ModalDialog("Ocorreu um erro", "O CPF informado é inválido.");
-        else if (obj.CPF === $('#formCadastro #CPF').val())// Se o CPF não foi alterado
+        else if (cpfOriginal === $('#formCadastro #CPF').val())// Se o CPF não foi alterado
             enviarRequisicao();
         else // Demais casos verifica duplicidade de CPF no banco
             verificarExistenciaCpf().then(valido => {

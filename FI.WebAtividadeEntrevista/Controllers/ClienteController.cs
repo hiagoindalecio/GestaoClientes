@@ -41,7 +41,16 @@ namespace WebAtividadeEntrevista.Controllers
                     Nome = cliente.Nome,
                     Sobrenome = cliente.Sobrenome,
                     Telefone = cliente.Telefone,
-                    CPF = cliente.CPF
+                    CPF = cliente.CPF,
+                    Beneficiarios = new List<BeneficiarioModel>()
+                    {
+                        new BeneficiarioModel()
+                        {
+                            Id = 15,
+                            Nome = "Testinho da Silva",
+                            CPF = "472.140.758-06"
+                        }
+                    }
                 };
 
             return View(model);
@@ -113,7 +122,7 @@ namespace WebAtividadeEntrevista.Controllers
                     Nome = model.Nome,
                     Sobrenome = model.Sobrenome,
                     Telefone = model.Telefone,
-                    CPF = model.CPF
+                    CPF = model.CPF,
                 });
 
                 return Json("Cadastro alterado com sucesso");
