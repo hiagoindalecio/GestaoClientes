@@ -33,8 +33,8 @@ $(document).ready(function () {
 
     $('#formCadastro').submit(function (e) {
         e.preventDefault();
-
-        if (!validaCpf())
+        const cpf = $('#formCadastro #CPF').val();
+        if (!validaCpf(cpf))
             ModalDialog("Ocorreu um erro", "O CPF informado é inválido.");
         else
             verificarExistenciaCpf().then(valido => {

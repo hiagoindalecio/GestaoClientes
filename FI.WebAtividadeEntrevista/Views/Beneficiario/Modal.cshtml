@@ -13,7 +13,19 @@
                 </button>
             </div>
             <div class="modal-body">
-                @Html.Partial("../Beneficiario/Forms")
+                @Html.Partial("../Beneficiario/Forms", Model)
+
+                <table class="table table-striped" id="gridBeneficiarios">
+                    <thead>
+                        <tr>
+                            <th scope="col" style="width: 40%">CPF</th>
+                            <th scope="col" style="width: 30%">Nome</th>
+                            <th scope="col" style="width: 30%"></th>
+                        </tr>
+                    </thead>
+                    <tbody id="gridBeneficiariosBody">
+                    </tbody>
+                </table>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-light" data-dismiss="modal">Fechar</button>

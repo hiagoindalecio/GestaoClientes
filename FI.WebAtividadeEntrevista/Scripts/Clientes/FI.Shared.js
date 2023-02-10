@@ -6,12 +6,10 @@ $(document).ready(function () {
     $('#formCadastro #Telefone').inputmask("mask", { "mask": "(99) 99999-9999" });
 });
 
-function validaCpf() {
+function validaCpf(cpf) {
     let total = 0;
     let resto;
-
-    cpf = $('#formCadastro #CPF').val()
-        .replace(/[^0-9]/g, ''); // Remove caracteres não numéricos
+    cpf = cpf.replace(/[^0-9]/g, ''); // Remove caracteres não numéricos
 
     if (cpf == "00000000000")
         return false;
