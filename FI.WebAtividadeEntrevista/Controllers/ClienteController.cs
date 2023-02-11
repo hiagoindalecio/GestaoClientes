@@ -29,6 +29,7 @@ namespace WebAtividadeEntrevista.Controllers
             ClienteModel model = null;
 
             if (cliente != null)
+            {
                 model = new ClienteModel()
                 {
                     Id = cliente.Id,
@@ -41,17 +42,19 @@ namespace WebAtividadeEntrevista.Controllers
                     Nome = cliente.Nome,
                     Sobrenome = cliente.Sobrenome,
                     Telefone = cliente.Telefone,
-                    CPF = cliente.CPF,
-                    Beneficiarios = new List<BeneficiarioModel>()
-                    {
-                        new BeneficiarioModel()
-                        {
-                            Id = 15,
-                            Nome = "Testinho da Silva",
-                            CPF = "472.140.758-06"
-                        }
-                    }
+                    CPF = cliente.CPF
                 };
+
+                var beneficiarios = new List<BeneficiarioModel>();
+                cliente.Beneficiarios.ForEach(b => beneficiarios.Add(new BeneficiarioModel
+                {
+                    Id = b.Id,
+                    CPF = b.CPF,
+                    Nome = b.Nome
+                }));
+
+                model.Beneficiarios = beneficiarios;
+            }
 
             return View(model);
         }

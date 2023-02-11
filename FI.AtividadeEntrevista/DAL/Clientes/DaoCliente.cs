@@ -59,9 +59,9 @@ namespace FI.AtividadeEntrevista.DAL
             };
 
             DataSet ds = Consultar("FI_SP_ConsCliente", parametros);
-            List<Cliente> cli = Converter(ds);
+            Cliente cli = Converter(ds);
 
-            return cli.FirstOrDefault();
+            return cli;
         }
 
         internal bool VerificarExistencia(string cpf)
@@ -91,7 +91,7 @@ namespace FI.AtividadeEntrevista.DAL
             };
 
             DataSet ds = Consultar("FI_SP_PesqCliente", parametros);
-            List<Cliente> cli = Converter(ds);
+            List<Cliente> cli = ConverterPesquisa(ds);
 
             int iQtd = 0;
 
@@ -99,22 +99,6 @@ namespace FI.AtividadeEntrevista.DAL
                 int.TryParse(ds.Tables[1].Rows[0][0].ToString(), out iQtd);
 
             qtd = iQtd;
-
-            return cli;
-        }
-
-        /// <summary>
-        /// Lista todos os clientes
-        /// </summary>
-        internal List<Cliente> Listar()
-        {
-            List<SqlParameter> parametros = new List<SqlParameter>
-            {
-                new SqlParameter("Id", 0)
-            };
-
-            DataSet ds = Consultar("FI_SP_ConsCliente", parametros);
-            List<Cliente> cli = Converter(ds);
 
             return cli;
         }
@@ -158,7 +142,49 @@ namespace FI.AtividadeEntrevista.DAL
             Executar("FI_SP_DelCliente", parametros);
         }
 
-        private List<Cliente> Converter(DataSet ds)
+        private Cliente Converter(DataSet ds)
+        {
+            Cliente cliente = null;
+            List<Beneficiario> beneficiarios = new List<Beneficiario>();
+
+            if (ds != null && ds.Tables != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+            {
+                foreach (DataRow row in ds.Tables[0].Rows)
+                {
+                    if (cliente == null)
+                        cliente = new Cliente
+                        {
+                            Id = row.Field<long>("IdCliente"),
+                            CEP = row.Field<string>("CEP"),
+                            Cidade = row.Field<string>("Cidade"),
+                            Email = row.Field<string>("Email"),
+                            Estado = row.Field<string>("Estado"),
+                            Logradouro = row.Field<string>("Logradouro"),
+                            Nacionalidade = row.Field<string>("Nacionalidade"),
+                            Nome = row.Field<string>("NomeCliente"),
+                            Sobrenome = row.Field<string>("Sobrenome"),
+                            Telefone = row.Field<string>("Telefone"),
+                            CPF = row.Field<string>("CPFCliente")
+                        };
+
+                    if (!row.IsNull("IdBeneficiario")) // Se o cliente tem algum beneficiário cadastrado
+                        beneficiarios.Add(new Beneficiario
+                        {
+                            Id = row.Field<long>("IdBeneficiario"),
+                            Nome = row.Field<string>("NomeBeneficiario"),
+                            CPF = row.Field<string>("CPFBeneficiario"),
+                            IdCliente = cliente.Id
+                        });
+                }
+
+                if (cliente != null)
+                    cliente.Beneficiarios = beneficiarios;
+            }
+
+            return cliente;
+        }
+
+        private List<Cliente> ConverterPesquisa(DataSet ds)
         {
             List<Cliente> lista = new List<Cliente>();
             if (ds != null && ds.Tables != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
