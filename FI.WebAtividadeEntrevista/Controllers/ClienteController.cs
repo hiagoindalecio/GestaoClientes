@@ -109,7 +109,6 @@ namespace WebAtividadeEntrevista.Controllers
         public JsonResult Alterar(ClienteModel model)
         {
             BoCliente bo = new BoCliente();
-            BoBeneficiario boBen = new BoBeneficiario();
 
             if (!ModelState.IsValid)
             {
@@ -122,6 +121,14 @@ namespace WebAtividadeEntrevista.Controllers
             }
             else
             {
+                var beneficiarios = new List<Beneficiario>();
+                model.Beneficiarios.ForEach(b => beneficiarios.Add(new Beneficiario
+                {
+                    Id = b.Id,
+                    CPF = b.CPF,
+                    Nome = b.Nome
+                }));
+
                 bo.Alterar(new Cliente()
                 {
                     Id = model.Id,
@@ -135,16 +142,8 @@ namespace WebAtividadeEntrevista.Controllers
                     Sobrenome = model.Sobrenome,
                     Telefone = model.Telefone,
                     CPF = model.CPF,
+                    Beneficiarios = beneficiarios
                 });
-
-                if (model.Beneficiarios.Any(b => b.Id == 0)) // Inclui novos beneficiários
-                    model.Beneficiarios
-                        .FindAll(b => b.Id == 0)
-                        .ForEach(b => boBen.Incluir(new Beneficiario() {
-                            Nome = b.Nome,
-                            CPF= b.CPF,
-                            IdCliente = model.Id
-                        }));
 
                 return Json("Cadastro alterado com sucesso");
             }

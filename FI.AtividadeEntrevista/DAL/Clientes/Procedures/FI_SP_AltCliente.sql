@@ -12,7 +12,7 @@
 	@ID            BIGINT       ,
 	@BENEFICIARIOS BeneficiariosList NULL READONLY
 AS
-BEGIN
+BEGIN TRAN
 	UPDATE CLIENTES 
 	SET 
 		NOME = @NOME, 
@@ -70,6 +70,6 @@ BEGIN
     BEGIN
         EXEC dbo.FI_SP_DelBeneficiario @ID = @IdBen;
 
-        FETCH NEXT FROM cursor_ben_recebidos INTO @IdBen
+        FETCH NEXT FROM cursor_ben_existentes INTO @IdBen
     END
-END
+COMMIT
