@@ -17,6 +17,14 @@ namespace FI.AtividadeEntrevista.DAL
         /// <param name="cliente">Objeto de cliente</param>
         internal long Incluir(Cliente cliente)
         {
+            var dtBeneficiarios = new DataTable();
+            dtBeneficiarios.Columns.Add("ID", typeof(long));
+            dtBeneficiarios.Columns.Add("CPF", typeof(string));
+            dtBeneficiarios.Columns.Add("NOME", typeof(string));
+
+            foreach (var beneficiario in cliente.Beneficiarios)
+                dtBeneficiarios.Rows.Add(beneficiario.Id, beneficiario.CPF, beneficiario.Nome);
+
             List<SqlParameter> parametros = new List<SqlParameter>
             {
                 new SqlParameter("Nome", cliente.Nome),
@@ -28,10 +36,11 @@ namespace FI.AtividadeEntrevista.DAL
                 new SqlParameter("Cidade", cliente.Cidade),
                 new SqlParameter("Logradouro", cliente.Logradouro),
                 new SqlParameter("Email", cliente.Email),
-                new SqlParameter("Telefone", cliente.Telefone)
+                new SqlParameter("Telefone", cliente.Telefone),
+                new SqlParameter("Beneficiarios", dtBeneficiarios)
             };
 
-            DataSet ds = Consultar("FI_SP_IncClienteV2", parametros);
+            DataSet ds = Consultar("FI_SP_IncCliente", parametros);
             long ret = 0;
             if (ds.Tables[0].Rows.Count > 0)
                 long.TryParse(ds.Tables[0].Rows[0][0].ToString(), out ret);
@@ -50,9 +59,9 @@ namespace FI.AtividadeEntrevista.DAL
             };
 
             DataSet ds = Consultar("FI_SP_ConsCliente", parametros);
-            List<Cliente> cli = Converter(ds);
+            Cliente cli = Converter(ds);
 
-            return cli.FirstOrDefault();
+            return cli;
         }
 
         internal bool VerificarExistencia(string cpf)
@@ -82,7 +91,7 @@ namespace FI.AtividadeEntrevista.DAL
             };
 
             DataSet ds = Consultar("FI_SP_PesqCliente", parametros);
-            List<Cliente> cli = Converter(ds);
+            List<Cliente> cli = ConverterPesquisa(ds);
 
             int iQtd = 0;
 
@@ -95,27 +104,19 @@ namespace FI.AtividadeEntrevista.DAL
         }
 
         /// <summary>
-        /// Lista todos os clientes
-        /// </summary>
-        internal List<Cliente> Listar()
-        {
-            List<SqlParameter> parametros = new List<SqlParameter>
-            {
-                new SqlParameter("Id", 0)
-            };
-
-            DataSet ds = Consultar("FI_SP_ConsCliente", parametros);
-            List<Cliente> cli = Converter(ds);
-
-            return cli;
-        }
-
-        /// <summary>
-        /// Inclui um novo cliente
+        /// Altera um cliente existente
         /// </summary>
         /// <param name="cliente">Objeto de cliente</param>
         internal void Alterar(Cliente cliente)
         {
+            var dtBeneficiarios = new DataTable();
+            dtBeneficiarios.Columns.Add("ID", typeof(long));
+            dtBeneficiarios.Columns.Add("CPF", typeof(string));
+            dtBeneficiarios.Columns.Add("NOME", typeof(string));
+
+            foreach (var beneficiario in cliente.Beneficiarios)
+                dtBeneficiarios.Rows.Add(beneficiario.Id, beneficiario.CPF, beneficiario.Nome);
+
             List<SqlParameter> parametros = new List<SqlParameter>
             {
                 new SqlParameter("CPF", cliente.CPF),
@@ -128,7 +129,8 @@ namespace FI.AtividadeEntrevista.DAL
                 new SqlParameter("Logradouro", cliente.Logradouro),
                 new SqlParameter("Email", cliente.Email),
                 new SqlParameter("Telefone", cliente.Telefone),
-                new SqlParameter("ID", cliente.Id)
+                new SqlParameter("ID", cliente.Id),
+                new SqlParameter("Beneficiarios", dtBeneficiarios)
             };
 
             Executar("FI_SP_AltCliente", parametros);
@@ -149,7 +151,49 @@ namespace FI.AtividadeEntrevista.DAL
             Executar("FI_SP_DelCliente", parametros);
         }
 
-        private List<Cliente> Converter(DataSet ds)
+        private Cliente Converter(DataSet ds)
+        {
+            Cliente cliente = null;
+            List<Beneficiario> beneficiarios = new List<Beneficiario>();
+
+            if (ds != null && ds.Tables != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+            {
+                foreach (DataRow row in ds.Tables[0].Rows)
+                {
+                    if (cliente == null)
+                        cliente = new Cliente
+                        {
+                            Id = row.Field<long>("IdCliente"),
+                            CEP = row.Field<string>("CEP"),
+                            Cidade = row.Field<string>("Cidade"),
+                            Email = row.Field<string>("Email"),
+                            Estado = row.Field<string>("Estado"),
+                            Logradouro = row.Field<string>("Logradouro"),
+                            Nacionalidade = row.Field<string>("Nacionalidade"),
+                            Nome = row.Field<string>("NomeCliente"),
+                            Sobrenome = row.Field<string>("Sobrenome"),
+                            Telefone = row.Field<string>("Telefone"),
+                            CPF = row.Field<string>("CPFCliente")
+                        };
+
+                    if (!row.IsNull("IdBeneficiario")) // Se o cliente tem algum beneficiário cadastrado
+                        beneficiarios.Add(new Beneficiario
+                        {
+                            Id = row.Field<long>("IdBeneficiario"),
+                            Nome = row.Field<string>("NomeBeneficiario"),
+                            CPF = row.Field<string>("CPFBeneficiario"),
+                            IdCliente = cliente.Id
+                        });
+                }
+
+                if (cliente != null)
+                    cliente.Beneficiarios = beneficiarios;
+            }
+
+            return cliente;
+        }
+
+        private List<Cliente> ConverterPesquisa(DataSet ds)
         {
             List<Cliente> lista = new List<Cliente>();
             if (ds != null && ds.Tables != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)

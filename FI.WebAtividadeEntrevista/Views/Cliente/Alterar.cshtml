@@ -6,10 +6,11 @@
     <script>
         var urlPost = '@Url.Action("Alterar", "Cliente", new { area = "" })';
         var urlValidacaoCpf = '@Url.Action("ValidarExistenciaCpf", "Cliente", new { area = "" })';
-        var obj = @Html.Raw(Json.Encode(Model));
+        var cpfOriginal = '@Model.CPF';
         var urlRetorno = '@Url.Action("Index", "Cliente", new { area = "" })';
     </script>
     @Scripts.Render("~/bundles/altClientes")
+    @Scripts.Render("~/bundles/beneficiarios")
 }
 <h2>@Html.Raw(ViewBag.Title)</h2>
-@Html.Partial("Forms")
+@Html.Partial("Forms", Model)

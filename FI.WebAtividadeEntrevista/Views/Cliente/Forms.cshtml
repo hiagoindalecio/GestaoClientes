@@ -1,30 +1,33 @@
-﻿
+﻿@using WebAtividadeEntrevista.Enums
+@using WebAtividadeEntrevista.Models
+@model WebAtividadeEntrevista.Models.ClienteModel
+
 <form id="formCadastro" method="post">
     <div class="row">
         <div class="col-md-6">
             <div class="form-group">
-                <label for="Nome">Nome:</label>
-                <input required="required" type="text" class="form-control" id="Nome" name="Nome" placeholder="Ex.: João" maxlength="50">
+                @Html.LabelFor(m => m.Nome)
+                @Html.TextBoxFor(m => m.Nome, new { placeholder = "Ex.: João", @class = "form-control" })
             </div>
         </div>
         <div class="col-md-6">
             <div class="form-group">
-                <label for="Sobrenome">Sobrenome:</label>
-                <input required="required" type="text" class="form-control" id="Sobrenome" name="Sobrenome" placeholder="Ex.: da Silva" maxlength="255">
+                @Html.LabelFor(m => m.Sobrenome)
+                @Html.TextBoxFor(m => m.Sobrenome, new { placeholder = "Ex.: da Silva", @class = "form-control" })
             </div>
         </div>
     </div>
     <div class="row">
         <div class="col-md-6">
             <div class="form-group">
-                <label for="CPF">CPF:</label>
-                <input required="required" type="text" class="form-control" id="CPF" name="CPF" placeholder="Ex.: 999.999.999-99" maxlength="255">
+                @Html.LabelFor(m => m.CPF)
+                @Html.TextBoxFor(m => m.CPF, new { placeholder = "Ex.: 999.999.999-99", @class = "form-control" })
             </div>
         </div>
         <div class="col-md-6">
             <div class="form-group">
-                <label for="Nacionalidade">Nacionalidade:</label>
-                <input required="required" type="text" class="form-control" id="Nacionalidade" name="Nacionalidade" placeholder="Ex.: brasileira" maxlength="50">
+                @Html.LabelFor(m => m.Nacionalidade)
+                @Html.TextBoxFor(m => m.Nacionalidade, new { placeholder = "Ex.: brasileira", @class = "form-control" })
             </div>
         </div>
 
@@ -32,24 +35,22 @@
     <div class="row">
         <div class="col-md-4">
             <div class="form-group">
-                <label for="CEP">CEP:</label>
-                <input required="required" type="text" class="form-control" id="CEP" name="CEP" placeholder="Ex.: 01011-100" maxlength="9">
+                @Html.LabelFor(m => m.CEP)
+                @Html.TextBoxFor(m => m.CEP, new { placeholder = "Ex.: 01011-100", @class = "form-control" })
             </div>
         </div>
         <div class="col-md-4">
             <div class="form-group">
-                <label for="Estado">Estado:</label>
-                <select required="required" id="Estado" class="form-control" name="Estado">
-                    <option value="">Selecione</option>
-                    <option value="SP">São Paulo</option>
-                    <option value="PE">Pernambuco</option>
-                </select>
+                @Html.LabelFor(m => m.Estado)
+                @Html.DropDownListFor(m => m.Estado,
+                    new SelectList(Enum.GetValues(typeof(Estados))),
+                    new { placeholder = "Ex.: 01011-100", @class = "form-control" })
             </div>
         </div>
         <div class="col-md-4">
             <div class="form-group">
-                <label for="Cidade">Cidade:</label>
-                <input required="required" type="text" class="form-control" id="Cidade" name="Cidade" maxlength="50" placeholder="Ex.: São Paulo">
+                @Html.LabelFor(m => m.Cidade)
+                @Html.TextBoxFor(m => m.Cidade, new { placeholder = "Ex.: São Paulo", @class = "form-control" })
             </div>
         </div>
     </div>
@@ -57,8 +58,8 @@
     <div class="row">
         <div class="col-md-12">
             <div class="form-group">
-                <label for="Logradouro">Logradouro:</label>
-                <input required="required" type="text" class="form-control" id="Logradouro" name="Logradouro" placeholder="Ex.: Rua Boa Vista 253" maxlength="500">
+                @Html.LabelFor(m => m.Logradouro)
+                @Html.TextBoxFor(m => m.Logradouro, new { placeholder = "Ex.: Rua Boa Vista 253", @class = "form-control" })
             </div>
         </div>
     </div>
@@ -66,14 +67,22 @@
     <div class="row">
         <div class="col-md-6">
             <div class="form-group">
-                <label for="Email">E-mail:</label>
-                <input required="required" type="text" class="form-control" id="Email" name="Email" placeholder="Ex.: email@email.com" maxlength="2079">
+                @Html.LabelFor(m => m.Email)
+                @Html.TextBoxFor(m => m.Email, new { placeholder = "Ex.: email@email.com", @class = "form-control" })
             </div>
         </div>
         <div class="col-md-6">
             <div class="form-group">
-                <label for="Telefone">Telefone:</label>
-                <input required="required" type="tel" class="form-control" id="Telefone" name="Telefone" placeholder="Ex.: (11) 2020-3030" maxlength="15">
+                @Html.LabelFor(m => m.Telefone)
+                @Html.TextBoxFor(m => m.Telefone, new { placeholder = "Ex.: (11) 92020-3030", @class = "form-control" })
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="pull-left">
+                <button type="button" class="btn btn-sm btn-light" data-toggle="modal" data-target="#modalBeneficiarios">Beneficiários</button>
             </div>
         </div>
     </div>
@@ -87,5 +96,5 @@
         </div>
     </div>
 
-
+    @Html.Partial("../Beneficiario/Modal", new BeneficiarioModalModel { Beneficiarios = Model?.Beneficiarios ?? new List<BeneficiarioModel>() })
 </form>

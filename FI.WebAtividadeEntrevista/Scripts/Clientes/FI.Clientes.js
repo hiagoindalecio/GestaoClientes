@@ -1,5 +1,4 @@
-﻿
-$(document).ready(function () {
+﻿$(document).ready(function () {
     function enviarRequisicao() {
         $.ajax({
             url: urlPost,
@@ -14,7 +13,8 @@ $(document).ready(function () {
                 "Estado": $("#Estado").val(),
                 "Cidade": $("#Cidade").val(),
                 "Logradouro": $("#Logradouro").val(),
-                "Telefone": $("#Telefone").val()
+                "Telefone": $("#Telefone").val(),
+                "Beneficiarios": formBeneficiarios.listaBeneficiarios
             },
             error:
                 function (r) {
@@ -33,8 +33,8 @@ $(document).ready(function () {
 
     $('#formCadastro').submit(function (e) {
         e.preventDefault();
-
-        if (!validaCpf())
+        const cpf = $('#formCadastro #CPF').val();
+        if (!validaCpf(cpf))
             ModalDialog("Ocorreu um erro", "O CPF informado é inválido.");
         else
             verificarExistenciaCpf().then(valido => {

@@ -29,6 +29,7 @@ namespace WebAtividadeEntrevista.Controllers
             ClienteModel model = null;
 
             if (cliente != null)
+            {
                 model = new ClienteModel()
                 {
                     Id = cliente.Id,
@@ -43,6 +44,17 @@ namespace WebAtividadeEntrevista.Controllers
                     Telefone = cliente.Telefone,
                     CPF = cliente.CPF
                 };
+
+                var beneficiarios = new List<BeneficiarioModel>();
+                cliente.Beneficiarios.ForEach(b => beneficiarios.Add(new BeneficiarioModel
+                {
+                    Id = b.Id,
+                    CPF = b.CPF,
+                    Nome = b.Nome
+                }));
+
+                model.Beneficiarios = beneficiarios;
+            }
 
             return View(model);
         }
@@ -65,6 +77,13 @@ namespace WebAtividadeEntrevista.Controllers
             }
             else
             {
+                var beneficiarios = new List<Beneficiario>();
+                model.Beneficiarios.ForEach(b => beneficiarios.Add(new Beneficiario
+                {
+                    Id = b.Id,
+                    CPF = b.CPF,
+                    Nome = b.Nome
+                }));
 
                 model.Id = bo.Incluir(new Cliente()
                 {
@@ -77,7 +96,8 @@ namespace WebAtividadeEntrevista.Controllers
                     Nome = model.Nome,
                     Sobrenome = model.Sobrenome,
                     Telefone = model.Telefone,
-                    CPF = model.CPF
+                    CPF = model.CPF,
+                    Beneficiarios = beneficiarios
                 });
 
 
@@ -101,6 +121,14 @@ namespace WebAtividadeEntrevista.Controllers
             }
             else
             {
+                var beneficiarios = new List<Beneficiario>();
+                model.Beneficiarios.ForEach(b => beneficiarios.Add(new Beneficiario
+                {
+                    Id = b.Id,
+                    CPF = b.CPF,
+                    Nome = b.Nome
+                }));
+
                 bo.Alterar(new Cliente()
                 {
                     Id = model.Id,
@@ -113,7 +141,8 @@ namespace WebAtividadeEntrevista.Controllers
                     Nome = model.Nome,
                     Sobrenome = model.Sobrenome,
                     Telefone = model.Telefone,
-                    CPF = model.CPF
+                    CPF = model.CPF,
+                    Beneficiarios = beneficiarios
                 });
 
                 return Json("Cadastro alterado com sucesso");

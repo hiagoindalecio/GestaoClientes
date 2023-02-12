@@ -62,8 +62,10 @@
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.IdentityModel" />
     <Reference Include="System.Web" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -74,12 +76,19 @@
   <ItemGroup>
     <Compile Include="BLL\BoCliente.cs" />
     <Compile Include="DAL\Clientes\DaoCliente.cs" />
+    <Content Include="DAL\Beneficiarios\Procedures\FI_SP_AltBeneficiario.sql" />
+    <Content Include="DAL\Beneficiarios\Procedures\FI_SP_DelBeneficiario.sql" />
+    <Content Include="DAL\Beneficiarios\Procedures\FI_SP_IncBeneficiario.sql">
+      <SubType>Form</SubType>
+    </Content>
     <Content Include="DAL\Clientes\Procedures\FI_SP_VerificaCliente.sql">
       <SubType>Designer</SubType>
     </Content>
     <Compile Include="DAL\Padrao\FI.AcessoDados.cs" />
+    <Compile Include="DML\Beneficiario.cs" />
     <Compile Include="DML\Cliente.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="DAL\Types\BeneficiariosList.sql" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="DAL\Clientes\Procedures\FI_SP_PesqCliente.sql" />
