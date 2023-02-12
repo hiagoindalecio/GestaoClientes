@@ -3,11 +3,12 @@
     ViewBag.Title = "Clientes";
 }
 @section scripts{
-<script>
+    <script>
     var urlAlteracao = '@Url.Action("Alterar", "Cliente", new { area = "" })';
+    var urlDelete = '@Url.Action("Deletar", "Cliente", new { area = "" })';
     var urlClienteList = '@Url.Action("ListarClientes", "Cliente", new { area = "" })';
 
-</script>
+    </script>
     @Scripts.Render("~/bundles/listClientes")
 }
 <h2>@Html.Raw(ViewBag.Title)</h2>

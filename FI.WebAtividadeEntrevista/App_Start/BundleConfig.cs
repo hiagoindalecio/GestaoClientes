@@ -29,7 +29,8 @@ namespace WebAtividadeEntrevista
                       "~/Scripts/Clientes/FI.Clientes.js").Include(
                       "~/Scripts/Clientes/FI.Shared.js"));
             bundles.Add(new ScriptBundle("~/bundles/listClientes").Include(
-                      "~/Scripts/Clientes/FI.ListClientes.js"));
+                      "~/Scripts/Clientes/FI.ListClientes.js").Include(
+                      "~/Scripts/Clientes/FI.Shared.js"));
             bundles.Add(new ScriptBundle("~/bundles/altClientes").Include(
                       "~/Scripts/Clientes/FI.AltClientes.js").Include(
                       "~/Scripts/Clientes/FI.Shared.js"));
