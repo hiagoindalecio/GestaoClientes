@@ -104,7 +104,7 @@ namespace FI.AtividadeEntrevista.DAL
         }
 
         /// <summary>
-        /// Inclui um novo cliente
+        /// Altera um cliente existente
         /// </summary>
         /// <param name="cliente">Objeto de cliente</param>
         internal void Alterar(Cliente cliente)
