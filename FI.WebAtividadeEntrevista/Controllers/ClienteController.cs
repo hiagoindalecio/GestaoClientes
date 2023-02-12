@@ -105,7 +105,17 @@ namespace WebAtividadeEntrevista.Controllers
             }
         }
 
-        [HttpPost]
+        [HttpDelete]
+        public JsonResult Deletar(long id)
+        {
+            BoCliente bo = new BoCliente();
+
+            bo.Excluir(id);
+
+            return Json("Cliente excluído com sucesso");
+        }
+
+        [HttpPut]
         public JsonResult Alterar(ClienteModel model)
         {
             BoCliente bo = new BoCliente();

@@ -2,7 +2,7 @@
     function enviarRequisicao() {
         $.ajax({
             url: urlPost,
-            method: "POST",
+            method: "PUT",
             data: {
                 "NOME": $("#Nome").val(),
                 "CPF": $("#CPF").val(),
