@@ -83,7 +83,7 @@
                                     </span>
                                     <span class="d-inline-block" tabindex="0" data-bs-toggle="tooltip">
                                         <button type="button"
-                                            class="btn btn-primary"
+                                            class="btn btn-danger"
                                             onclick="formBeneficiarios.lista.funcoes.delete('${cpfSomenteNum}')">
                                             Excluir
                                         </button>
